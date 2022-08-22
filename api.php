@@ -19,7 +19,7 @@ if (isset($_GET['action']) && $_GET['action']!="") {
         } else {
             json_error("balance", "MySQL connection error."); // Returns JSON with balance ERROR.
         }
-        // Code below is responsible for creating new account with owner name and password:
+    // Code below is responsible for creating new account with owner name and password:
     } elseif ($_GET['action'] == "create" && isset($_GET['owner']) && $_GET['owner']!="" && isset($_GET['password']) && $_GET['password']!="") { //create
  
         $owner = clean($_GET['owner']);
@@ -30,7 +30,7 @@ if (isset($_GET['action']) && $_GET['action']!="") {
         } else {
             json_error("create", "Account creation failed."); // Returns JSON with create ERROR.
         }
-        // Code below is responsible for adding funds to account:
+    // Code below is responsible for adding funds to account:
     } elseif ($_GET['action'] == "add" && isset($_GET['id']) && $_GET['id']!="" && isset($_GET['amount']) && $_GET['amount']!="") { //add
         $amount = clean($_GET['amount']);
         $id = clean($_GET['id']);
@@ -45,7 +45,7 @@ if (isset($_GET['action']) && $_GET['action']!="") {
             json_error("add", "Adding funds to account failed; input is not numeric."); // Returns JSON with add ERROR.
         }
 
-        // Code below is responsible for creating withdrawal from the account:
+    // Code below is responsible for creating withdrawal from the account:
     } elseif ($_GET['action'] == "withdraw" && isset($_GET['id']) && $_GET['id']!="" && isset($_GET['amount']) && $_GET['amount']!="") { //withdraw
  
         $amount = clean($_GET['amount']);
@@ -64,7 +64,7 @@ if (isset($_GET['action']) && $_GET['action']!="") {
         } else {
             json_error("withdraw", "Withdrawal funds from account failed; there is not enough funds to withdraw or input is not numeric."); // Returns JSON with withdraw ERROR.
         } 
-        // Code below is responsible for displaying history of account:
+    // Code below is responsible for displaying history of account:
     } elseif ($_GET['action'] == "history" && isset($_GET['owner_id']) && $_GET['owner_id']!="") { //history
         $owner_id = clean($_GET['owner_id']);
         $result = mysqli_query($connection, "SELECT * FROM transactions WHERE owner_id=$owner_id");
@@ -93,8 +93,6 @@ if (isset($_GET['action']) && $_GET['action']!="") {
  
 }
  
- 
- 
 // Function below generates JSON with account balance data:
 function json_balance($id, $balance, $owner) {
     $response['id'] = $id;
@@ -104,6 +102,7 @@ function json_balance($id, $balance, $owner) {
     $json = json_encode($response);
     echo $json;
 }
+
 // Function below generates JSON with user ID for created account:
 function json_create($id) {
     $response['id'] = $id;
@@ -111,6 +110,7 @@ function json_create($id) {
     $json = json_encode($response);
     echo $json;
 }
+
 // Function below generates JSON with amount of added funds to account:
 function json_add($amount) {
     $response['state'] = "Success";
@@ -119,6 +119,7 @@ function json_add($amount) {
     $json = json_encode($response);
     echo $json;
 }
+
 // Function below generates JSON with the amount of withdrawal from account:
 function json_withdraw($amount) {
     $response['state'] = "Success";
@@ -153,5 +154,5 @@ function json_error($action, $desc) {
 function clean($value) {
     return preg_replace('/[^A-Za-z0-9\-\.\s]/', '', $value);
 }
- 
+
 ?>
